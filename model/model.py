@@ -21,7 +21,6 @@ class Model:
         films = Dao.films(serate)
         self.recursion([], films, [n+1 for n in range(serate)])
         self._solutions.sort(key=lambda serie: self.grater_overall(serie))
-        print(len(self._solutions))
         return self._solutions[-1]
 
     def recursion(self, ps, films, n):
