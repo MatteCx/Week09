@@ -22,7 +22,7 @@ class View:
         self.dd_serate.options.append(ft.dropdown.Option(12, 'Dodici'))
 
 
-        self.risultati = ft.ListView(expand=1, spacing=8, padding=16)
+        self.risultati = ft.ListView(expand=1, spacing=8, padding=16, width = 800)
         self.page.add(
             ft.Text('Programma del cineclub', size=24, color='blue'),
             ft.Row([
