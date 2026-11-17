@@ -1,4 +1,3 @@
-import copy
 from database.dao import Dao
 
 class Model:
@@ -11,28 +10,21 @@ class Model:
     def best_serie(self, serate):
         self._solutions = []
         films = Dao.films(serate)
-        self.recursion([], films, [n+1 for n in range(serate)])
+        self.recursion([], films, 0, serate)
         self._solutions.sort(key=lambda serie: self.grater_overall(serie))
         return self._solutions[-1]
 
-    def recursion(self, ps, films, n):
+    def recursion(self, ps, films, indice_serate, tot_serate):
         generi = [film.genere for film in ps]
-        generi_set = set(generi)
-        if len(n) == 0:
-            if not(len(generi_set) < 3) and not(generi.count("Comedy") < 2):
-                self._solutions.append(copy.deepcopy(ps))
+        if indice_serate == tot_serate:
+            if not(len(set(generi)) < 3) and not(generi.count("Comedy") < 2):
+                self._solutions.append(list(ps))
             return
-        D = copy.deepcopy(n)
-        for s in D:
-            for film in films[s-1]:
-                if (ps == [] or ps[-1].genere != film.genere) and (generi.count(film.genere) < 2):
-                    ps.append(copy.deepcopy(film))
-                    n.remove(s)
-                    self.recursion(ps, films, n)
-                    ps.pop()
-                    n.append(s)
-                    n.sort()
-            return
+        for film in films[indice_serate]:
+            if (ps == [] or ps[-1].genere != film.genere) and (generi.count(film.genere) < 2):
+                ps.append(film)
+                self.recursion(ps, films, indice_serate + 1, tot_serate)
+                ps.pop()
 
     def grater_overall(self, serie):
         total = 0
