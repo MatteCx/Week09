@@ -5,14 +5,6 @@ class Model:
     def __init__(self):
         self._solutions = []
 
-    def serie_valida(self, ps):
-        result = True
-        generi = [film.genere for film in ps]
-        generi_set = set(generi)
-        if len(generi_set) < 3 : result = False
-        if generi.count("Comedy") < 2: result = False
-        return result
-
     def get_stats(self, serate):
         return Dao.readStats(serate)
 
